@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+message BasePackage {
+  int32 proto_code = 1;
+  int32 unity_session_id = 2;
+  bytes data = 10;
+}
+
+message RegistReq {
+  string user_name = 1;
+  string password = 2;
+  string phone_number = 3;
+  string gender = 4;
+  bool isMember = 5;
+}
+
+message LoginReq {
+  string user_name = 1;
+  string password = 2;
+}
+
+message RegistRet{
+	CmdCode cmd_code = 1;//表示注册是否成功
+}
+
+message LoginRet{
+	CmdCode cmd_code = 1;//表示登录是否成功
+	int32 account_id = 2;
+	string user_name = 3;
+    string password = 4;
+	string phone_number = 5;
+	string gender = 6;
+	bool is_member = 7;
+}
+
+enum CmdCode{
+	Succeed = 0;//请求成功
+	AcctExist = 1;//账号已存在
+	ServerError=2;//服务端错误
+	AcctNotExist = 3;//账号不存在
+	PasswordError= 4;//密码错误
+	AcctDisable = 5;//账号禁用
+	ReqParamError= 6;//请求参数错误
+	NicknameExist = 7;//昵称已存在
+	UserNameIllegal = 8;//用户名不合法
+	PhoneNumIllegal= 9 ;//手机号码不合法
+	PasswordIllegal=10;//密码不合法
+	UserOftenLogin=11;//用户频繁登录
+}
+
+message ChangeMemberReq {
+  int32 account_id = 1;
+  bool is_member = 2;
+}
+
+message ChangeMemberRet {
+  CmdCode cmd_code = 1;
+}
+
+message ErrMsg{
+	CmdCode cmd_code = 1;//错误码
+}
