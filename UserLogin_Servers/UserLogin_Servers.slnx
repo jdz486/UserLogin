@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/01_Server/">
+    <Project Path="CenterServer/CenterServer.csproj" Id="1639f153-f092-4300-a891-7100121e4965" />
+    <Project Path="LoginServer/LoginServer.csproj" Id="8a5623aa-5085-4078-8a29-c3c986c42be9" />
+  </Folder>
+  <Folder Name="/02_Library/">
+    <Project Path="Network/Network.csproj" Id="e2bd0bf6-6073-4157-ac1f-7fddd7ea131b" />
+  </Folder>
+</Solution>

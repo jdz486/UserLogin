@@ -1,0 +1,79 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+
+public class DataUtils : Singleton<DataUtils>
+{
+    //登录时,缓存登录的时间毫秒..
+    public Dictionary<string, long> _loginTimeDic = new Dictionary<string, long>();
+
+    public void AddLoginMilliseconds(string username, long milliseconds)
+    {
+        if (!_loginTimeDic.ContainsKey(username))
+        {
+            _loginTimeDic.Add(username, milliseconds);
+        }
+    }
+
+    public long GetLoginMilliseconds(string username)
+    {
+        if (_loginTimeDic.ContainsKey(username))
+        {
+            return _loginTimeDic[username];
+        }
+        return 0;
+    }
+
+    public static bool IsValidUserName(string username)
+    {
+        if (username.Length < 1 || username.Length > 20)
+            return false;
+        string pattern = @"^[\u4e00-\u9fa5A-Za-z0-9]+$";
+        if (!Regex.IsMatch(username, pattern))
+            return false;
+        if (Regex.IsMatch(username, @"^\d+$"))
+            return false;
+        return true;
+    }
+
+    public static bool IsValidPassword(string password)
+    {
+        if (password.Length < 6 || password.Length > 15)
+            return false;
+        if (!Regex.IsMatch(password, @"^[0-9a-zA-Z]+$"))
+            return false;
+        return true;
+    }
+
+    public static bool IsValidMobile(string phone)
+    {
+        const string pattern = @"^1[3-9]\d{9}$";
+        return Regex.IsMatch(phone, pattern);
+    }
+
+    public static string GetMD5Hash(string input)
+    {
+        // 使用MD5创建哈希对象
+        using (MD5 md5Hash = MD5.Create())
+        {
+            // 将输入字符串转换为字节数组并计算哈希
+            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+            // 创建一个新的Stringbuilder来收集字节并创建字符串
+            StringBuilder sBuilder = new StringBuilder();
+
+            // 循环字节数组并格式化每个字节为两个十六进制数字
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+
+            return sBuilder.ToString();
+        }
+    }
+}
